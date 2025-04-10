@@ -124,7 +124,7 @@ edunft/
 ## ✍️ Author
 
 **Utkarsh**  
-📧 [Connect via NEAR Social](https://test.near.social/u/wickedspidy.testnet)
+📧 [Connect via NEAR Social](https://near.social/mob.near/widget/ProfilePage?accountId=wickedspidy.near)
 
 ---
 
