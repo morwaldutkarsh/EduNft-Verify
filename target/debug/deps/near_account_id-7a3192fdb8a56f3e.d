@@ -1,0 +1,11 @@
+D:\EduNft-Verify\target\debug\deps\libnear_account_id-7a3192fdb8a56f3e.rmeta: C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\lib.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\errors.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\account_id.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\account_id_ref.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\borsh.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\serde.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\validation.rs
+
+D:\EduNft-Verify\target\debug\deps\near_account_id-7a3192fdb8a56f3e.d: C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\lib.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\errors.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\account_id.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\account_id_ref.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\borsh.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\serde.rs C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\validation.rs
+
+C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\lib.rs:
+C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\errors.rs:
+C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\account_id.rs:
+C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\account_id_ref.rs:
+C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\borsh.rs:
+C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\serde.rs:
+C:\Users\DELL\.cargo\registry\src\index.crates.io-6f17d22bba15001f\near-account-id-1.0.0\src\validation.rs:

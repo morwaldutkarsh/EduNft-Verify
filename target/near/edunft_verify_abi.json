@@ -1,0 +1,767 @@
+{
+  "schema_version": "0.4.0",
+  "metadata": {
+    "name": "edunft_verify",
+    "version": "0.1.0",
+    "authors": [
+      "Near Inc <hello@nearprotocol.com>"
+    ],
+    "build": {
+      "compiler": "rustc 1.85.1",
+      "builder": "cargo-near cargo-near-build 0.4.4"
+    },
+    "wasm_hash": "3jSHmE9yXaYMPjTjokzaKVCDuPoFnXYoQKchQUnwPM2t"
+  },
+  "body": {
+    "functions": [
+      {
+        "name": "contract_source_metadata",
+        "kind": "view"
+      },
+      {
+        "name": "new",
+        "kind": "call",
+        "modifiers": [
+          "init"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "owner_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            },
+            {
+              "name": "metadata",
+              "type_schema": {
+                "$ref": "#/definitions/NFTContractMetadata"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "new_default_meta",
+        "kind": "call",
+        "modifiers": [
+          "init"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "owner_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "nft_approve",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "token_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "account_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            },
+            {
+              "name": "msg",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "nft_is_approved",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "token_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "approved_account_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            },
+            {
+              "name": "approval_id",
+              "type_schema": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "boolean"
+          }
+        }
+      },
+      {
+        "name": "nft_metadata",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/NFTContractMetadata"
+          }
+        }
+      },
+      {
+        "name": "nft_mint",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "token_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "metadata",
+              "type_schema": {
+                "$ref": "#/definitions/TokenMetadata"
+              }
+            },
+            {
+              "name": "receiver_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "nft_payout",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "token_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "balance",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "max_len_payout",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Payout"
+          }
+        }
+      },
+      {
+        "name": "nft_resolve_transfer",
+        "kind": "call",
+        "modifiers": [
+          "private"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "owner_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            },
+            {
+              "name": "receiver_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            },
+            {
+              "name": "token_id",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "boolean"
+          }
+        }
+      },
+      {
+        "name": "nft_revoke",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "token_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "account_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "nft_revoke_all",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "token_id",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "nft_supply_for_owner",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "account_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "nft_token",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "token_id",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/JsonToken"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "nft_tokens",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "from_index",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            {
+              "name": "limit",
+              "type_schema": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/JsonToken"
+            }
+          }
+        }
+      },
+      {
+        "name": "nft_tokens_for_owner",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "account_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            },
+            {
+              "name": "from_index",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            {
+              "name": "limit",
+              "type_schema": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/JsonToken"
+            }
+          }
+        }
+      },
+      {
+        "name": "nft_total_supply",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "nft_transfer",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "receiver_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            },
+            {
+              "name": "token_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "memo",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "nft_transfer_call",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "receiver_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            },
+            {
+              "name": "token_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "memo",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            {
+              "name": "msg",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/PromiseOrValueBoolean"
+          }
+        }
+      },
+      {
+        "name": "nft_transfer_payout",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "receiver_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            },
+            {
+              "name": "token_id",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "approval_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "memo",
+              "type_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            {
+              "name": "balance",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "max_len_payout",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Payout"
+          }
+        }
+      }
+    ],
+    "root_schema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "String",
+      "type": "string",
+      "definitions": {
+        "AccountId": {
+          "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+          "type": "string"
+        },
+        "Base64VecU8": {
+          "description": "Helper class to serialize/deserialize `Vec<u8>` to base64 string.\n\n# Example ```rust use near_sdk::{json_types::Base64VecU8, near};\n\n#[near(serializers=[json])] struct NewStruct { field: Base64VecU8, } ```",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
+        },
+        "JsonToken": {
+          "type": "object",
+          "required": [
+            "metadata",
+            "owner_id",
+            "token_id"
+          ],
+          "properties": {
+            "metadata": {
+              "$ref": "#/definitions/TokenMetadata"
+            },
+            "owner_id": {
+              "$ref": "#/definitions/AccountId"
+            },
+            "token_id": {
+              "type": "string"
+            }
+          }
+        },
+        "NFTContractMetadata": {
+          "type": "object",
+          "required": [
+            "name",
+            "spec",
+            "symbol"
+          ],
+          "properties": {
+            "base_uri": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "icon": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "name": {
+              "type": "string"
+            },
+            "reference": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reference_hash": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Base64VecU8"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "spec": {
+              "type": "string"
+            },
+            "symbol": {
+              "type": "string"
+            }
+          }
+        },
+        "Payout": {
+          "type": "object",
+          "required": [
+            "payout"
+          ],
+          "properties": {
+            "payout": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "PromiseOrValueBoolean": {
+          "type": "boolean"
+        },
+        "TokenMetadata": {
+          "type": "object",
+          "properties": {
+            "copies": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "description": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "expires_at": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "extra": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "issued_at": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "media": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "media_hash": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Base64VecU8"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "reference": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reference_hash": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Base64VecU8"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "starts_at": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "title": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "updated_at": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          }
+        }
+      }
+    }
+  }
+}
