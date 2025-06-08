@@ -362,3 +362,197 @@ return (
 
 // user-page
 
+const nftContractId = "edunft-verify.testnet";
+const admins = ["wickedspidy.testnet", "edunft-verify.testnet"];
+
+State.init({
+  selectedAdmin: null,
+  searchInput: "",
+  nfts: [],
+  loading: false,
+  debounceTimer: null,
+});
+
+const fetchNFTs = (accountId) => {
+  if (!accountId) return;
+  State.update({ loading: true, selectedAdmin: accountId });
+
+  Near.asyncView(nftContractId, "nft_tokens_for_owner", {
+    account_id: accountId,
+    from_index: "0",
+    limit: 50,
+  }).then((res) => {
+    State.update({ nfts: res || [], loading: false });
+  });
+};
+
+const handleLiveSearch = (value) => {
+  State.update({ searchInput: value });
+
+  if (state.debounceTimer) {
+    clearTimeout(state.debounceTimer);
+  }
+
+  const timer = setTimeout(() => {
+    const trimmed = value.trim();
+    if (trimmed.endsWith(".testnet") || trimmed.endsWith(".near")) {
+      fetchNFTs(trimmed);
+    } else {
+      State.update({ loading: true, selectedAdmin: trimmed });
+      Near.asyncView(nftContractId, "nft_token", {
+        token_id: trimmed,
+      }).then((res) => {
+        State.update({ nfts: res ? [res] : [], loading: false });
+      });
+    }
+  }, 500);
+
+  State.update({ debounceTimer: timer });
+};
+
+return (
+  <div
+    style={{
+      fontFamily: "'Poppins', sans-serif",
+      padding: "2rem",
+      backgroundColor: "#f9f9fc",
+      borderRadius: "16px",
+      maxWidth: "1100px",
+      margin: "auto",
+    }}
+  >
+    <h2
+      style={{
+        textAlign: "center",
+        marginBottom: "1.5rem",
+        fontWeight: "600",
+        color: "#2c3e50",
+      }}
+    >
+      🔎 Explore Admin-Minted NFTs
+    </h2>
+
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: "1.5rem",
+        flexWrap: "wrap",
+      }}
+    >
+      <input
+        type="text"
+        placeholder="🔍 Search by NEAR Account or Token ID"
+        value={state.searchInput}
+        onChange={(e) => handleLiveSearch(e.target.value)}
+        style={{
+          padding: "12px 16px",
+          width: "80%",
+          maxWidth: "400px",
+          borderRadius: "10px",
+          border: "1px solid #ccc",
+          fontSize: "16px",
+        }}
+      />
+    </div>
+
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        marginBottom: "2rem",
+      }}
+    >
+      {admins.map((admin) => (
+        <button
+          key={admin}
+          onClick={() => fetchNFTs(admin)}
+          style={{
+            margin: "8px",
+            padding: "10px 18px",
+            backgroundColor:
+              state.selectedAdmin === admin ? "#d3a4ff" : "#fff5fb",
+            color: "#2c3e50",
+            border: "1px solid #d0c5ff",
+            borderRadius: "8px",
+            fontWeight: "500",
+            cursor: "pointer",
+            transition: "background 0.3s ease",
+          }}
+        >
+          👩‍💼 {admin}
+        </button>
+      ))}
+    </div>
+
+    {state.loading && (
+      <p style={{ textAlign: "center", color: "#666" }}>Loading NFTs...</p>
+    )}
+
+    {!state.loading && state.nfts.length > 0 && (
+      <>
+        <h4
+          style={{
+            textAlign: "center",
+            marginBottom: "1.5rem",
+            fontWeight: "500",
+            color: "#2c3e50",
+          }}
+        >
+          🎓 NFTs by <strong>{state.selectedAdmin}</strong>
+        </h4>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+            gap: "24px",
+          }}
+        >
+          {state.nfts.map((nft) => (
+            <div
+              key={nft.token_id}
+              style={{
+                backgroundColor: "#fff",
+                border: "2px solid #e0bbff",
+                borderRadius: "12px",
+                overflow: "hidden",
+                boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
+                textAlign: "center",
+                padding: "1rem",
+              }}
+            >
+              <img
+                src={nft.metadata.media}
+                alt={nft.metadata.title}
+                style={{
+                  width: "100%",
+                  height: "350px",
+                  objectFit: "cover",
+                  borderRadius: "12px",
+                  marginBottom: "10px",
+                  border: "1px solid #e0bbff",
+                }}
+              />
+              <h5 style={{ fontWeight: "600", fontSize: "16px" }}>
+                {nft.metadata.title}
+              </h5>
+              <p style={{ color: "#666", fontSize: "14px" }}>
+                {nft.metadata.description}
+              </p>
+              <small style={{ color: "#999" }}>🆔 {nft.token_id}</small>
+            </div>
+          ))}
+        </div>
+      </>
+    )}
+
+    {!state.loading && state.selectedAdmin && state.nfts.length === 0 && (
+      <p style={{ textAlign: "center", color: "#999" }}>
+        No NFTs found for <strong>{state.selectedAdmin}</strong>.
+      </p>
+    )}
+  </div>
+);
