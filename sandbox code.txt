@@ -1,0 +1,364 @@
+// landing page 
+
+const accountId = context.accountId;
+const admins = [
+  "admin1.testnet",
+  "wickedspidy.testnet",
+  "edunft-verify.testnet",
+];
+
+const isAdmin = admins.includes(accountId);
+const redirectWidget = isAdmin
+  ? "edunft-verify.testnet/widget/admin-profile"
+  : "edunft-verify.testnet/widget/user-profile";
+
+if (accountId) {
+  return <Widget src={redirectWidget} props={{ accountId }} />;
+}
+
+return (
+  <div
+    style={{
+      fontFamily: "'Inter', sans-serif",
+      padding: "3rem 2rem",
+      background: "linear-gradient(to right, #f9f9fb, #f1f2ff)",
+      borderRadius: "16px",
+      boxShadow: "0 8px 20px rgba(0, 0, 0, 0.08)",
+      maxWidth: "1100px",
+      margin: "40px auto",
+      color: "#2c3e50",
+    }}
+  >
+    <h1
+      style={{
+        fontSize: "2.75rem",
+        marginBottom: "20px",
+        textAlign: "center",
+        color: "#3c3c5c",
+        fontWeight: "700",
+      }}
+    >
+      🎓 Welcome to the EduNFT Platform
+    </h1>
+
+    <p style={{ fontSize: "1.2rem", lineHeight: "1.8", textAlign: "center" }}>
+      You're now inside the <strong>EduNFT Verification Platform</strong>, where
+      educational credentials meet blockchain security. Follow the sections
+      below to get started.
+    </p>
+
+    <div
+      style={{
+        background: "#f2f6fd",
+        padding: "20px",
+        borderRadius: "12px",
+        marginTop: "40px",
+        border: "1px solid #dce4f0",
+      }}
+    >
+      <h2 style={{ fontSize: "1.5rem", color: "#333", marginBottom: "10px" }}>
+        🌟 Key Features
+      </h2>
+      <ul style={{ paddingLeft: "20px", lineHeight: "1.8", margin: 0 }}>
+        <li>🎓 Mint degree certificates as NFTs with just a few clicks</li>
+        <li>🔍 Verify any certificate by searching token ID or owner</li>
+        <li>🌐 View all verified institutions and issued credentials</li>
+      </ul>
+    </div>
+
+    <div
+      style={{
+        background: "#fff2f6",
+        padding: "20px",
+        borderRadius: "12px",
+        marginTop: "30px",
+        border: "1px solid #ffd6e0",
+      }}
+    >
+      <h2 style={{ fontSize: "1.5rem", color: "#333", marginBottom: "10px" }}>
+        👣 Getting Started
+      </h2>
+      <ul style={{ paddingLeft: "20px", lineHeight: "1.8", margin: 0 }}>
+        <li>Connect your NEAR wallet using the top-right menu.</li>
+        <li>
+          Once connected, you’ll be automatically redirected to the appropriate
+          dashboard based on your role (admin or user).
+        </li>
+        <li>
+          Admins can mint NFT certificates; users can view and verify
+          credentials.
+        </li>
+      </ul>
+      <p
+        style={{
+          marginTop: "15px",
+          fontStyle: "italic",
+          fontSize: "14px",
+          color: "#444",
+        }}
+      >
+        👉 To request admin access, please contact us at{" "}
+        <a
+          href="mailto:morwaldutkarsh@gmail.com"
+          style={{ color: "#e91e63", textDecoration: "underline" }}
+        >
+          morwaldutkarsh@gmail.com
+        </a>
+      </p>
+    </div>
+
+    <div
+      style={{
+        background: "#e0bbff",
+        padding: "20px",
+        borderRadius: "12px",
+        marginTop: "30px",
+        textAlign: "center",
+      }}
+    >
+      <p
+        style={{
+          margin: 0,
+          fontStyle: "italic",
+          color: "#2c2c3f",
+          fontWeight: "500",
+        }}
+      >
+        🔐 Admin access is restricted to approved institutions. If you're a
+        university or organization looking to onboard, please reach out to the
+        EduNFT team for verification.
+      </p>
+    </div>
+  </div>
+);
+
+
+// Admin page 
+
+const accountId = context?.accountId;
+const nftContractId = "edunft-verify.testnet";
+const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
+
+State.init({
+  tokenId: "",
+  img: null,
+});
+
+const handleImageUpload = (files) => {
+  if (files?.length > 0 && state.tokenId) {
+    State.update({ img: { uploading: true, cid: null } });
+
+    const body = files[0];
+
+    asyncFetch("https://ipfs.near.social/add", {
+      method: "POST",
+      headers: { Accept: "application/json" },
+      body,
+    }).then((res) => {
+      const cid = res.body.cid;
+      console.log("IPFS CID:", cid);
+
+      State.update({ img: { cid, tokenId: state.tokenId } });
+      handleMint(cid, state.tokenId);
+    });
+  } else {
+    State.update({ img: null });
+  }
+};
+
+const handleMint = (cid, tokenId) => {
+  const gas = "200000000000000";
+  const deposit = "10000000000000000000000";
+
+  Near.call({
+    contractName: nftContractId,
+    methodName: "nft_mint",
+    args: {
+      token_id: tokenId,
+      metadata: {
+        title: "EduNFT",
+        description: "Educational NFT on testnet",
+        media: ipfsUrl(cid),
+      },
+      receiver_id: accountId,
+    },
+    gas,
+    deposit,
+  }).then((res) => {
+    console.log("Minting response:", res);
+    State.update({ img: { ...state.img, minted: true } });
+  });
+};
+
+const userNFTs = Near.view(nftContractId, "nft_tokens_for_owner", {
+  account_id: accountId,
+  from_index: "0",
+  limit: 20,
+});
+
+return (
+  <div
+    style={{
+      Width: "100%",
+      margin: "2rem auto",
+      background: "#f0f6fc",
+      padding: "2.5rem",
+      borderRadius: "16px",
+      boxShadow: "0 6px 18px rgba(0, 0, 0, 0.08)",
+      fontFamily: "Poppins, sans-serif",
+      color: "#2c3e50",
+    }}
+  >
+    <h2
+      style={{
+        textAlign: "center",
+        color: "#2c3e50",
+        marginBottom: "1.5rem",
+        fontWeight: "600",
+      }}
+    >
+      🎓 Mint Your EduNFT
+    </h2>
+
+    <div style={{ marginBottom: "1.5rem" }}>
+      <input
+        type="text"
+        placeholder="🆔 Enter Token ID"
+        value={state.tokenId}
+        onChange={(e) => State.update({ tokenId: e.target.value })}
+        style={{
+          width: "100%",
+          padding: "12px 16px",
+          fontSize: "16px",
+          borderRadius: "10px",
+          border: "1px solid #e0bbff",
+          backgroundColor: "#fff5fb",
+          color: "#2c3e50",
+          outline: "none",
+        }}
+      />
+    </div>
+
+    <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+      <Files
+        multiple={false}
+        accepts={["image/*"]}
+        clickable
+        onChange={handleImageUpload}
+      >
+        <button
+          style={{
+            backgroundColor: "#e0bbff",
+            color: "#fff",
+            padding: "12px 24px",
+            border: "none",
+            borderRadius: "10px",
+            fontWeight: "bold",
+            fontSize: "16px",
+            cursor: "pointer",
+          }}
+        >
+          {state.img?.uploading ? "Uploading..." : "📤 Upload & Mint"}
+        </button>
+      </Files>
+    </div>
+
+    {state.img?.cid && (
+      <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
+        <p style={{ marginBottom: "0.5rem" }}>✅ Uploaded Image:</p>
+        <img
+          src={ipfsUrl(state.img.cid)}
+          width="220"
+          alt="Uploaded NFT"
+          style={{
+            borderRadius: "12px",
+            border: "4px solid #ffd6e0",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+          }}
+        />
+        <p style={{ marginTop: "0.5rem" }}>
+          <strong>Token ID:</strong> {state.img.tokenId}
+        </p>
+      </div>
+    )}
+
+    {state.img?.minted && (
+      <p
+        style={{
+          textAlign: "center",
+          color: "green",
+          fontWeight: "600",
+          fontSize: "16px",
+        }}
+      >
+        ✅ NFT Minted Successfully!
+      </p>
+    )}
+
+    <hr style={{ borderColor: "#ccc", margin: "2rem 0" }} />
+
+    <h4
+      style={{
+        textAlign: "center",
+        marginBottom: "1.5rem",
+        color: "#2c3e50",
+      }}
+    >
+      📦 Your Minted NFTs
+    </h4>
+
+    {userNFTs && userNFTs.length > 0 ? (
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+          gap: "24px",
+        }}
+      >
+        {userNFTs.map((nft) => (
+          <div
+            key={nft.token_id}
+            style={{
+              backgroundColor: "#fff",
+              border: "2px solid #e0bbff",
+              borderRadius: "12px",
+              overflow: "hidden",
+              boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
+              textAlign: "center",
+              padding: "1rem",
+            }}
+          >
+            <img
+              src={nft.metadata.media}
+              alt={nft.metadata.title}
+              style={{
+                width: "100%",
+                height: "350px",
+                objectFit: "cover",
+                borderRadius: "12px",
+                marginBottom: "10px",
+                border: "1px solid #e0bbff",
+              }}
+            />
+
+            <h5 style={{ fontWeight: "600", fontSize: "16px" }}>
+              {nft.metadata.title}
+            </h5>
+            <p style={{ color: "#666", fontSize: "14px" }}>
+              {nft.metadata.description}
+            </p>
+            <small style={{ color: "#999" }}>🆔 {nft.token_id}</small>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <p style={{ textAlign: "center", color: "#999" }}>
+        You don't own any NFTs yet.
+      </p>
+    )}
+  </div>
+);
+ 
+
+// user-page
+
