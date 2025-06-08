@@ -24,7 +24,7 @@ return (
       background: "linear-gradient(to right, #f9f9fb, #f1f2ff)",
       borderRadius: "16px",
       boxShadow: "0 8px 20px rgba(0, 0, 0, 0.08)",
-      maxWidth: "1100px",
+      width: "100%",
       margin: "40px auto",
       color: "#2c3e50",
     }}
