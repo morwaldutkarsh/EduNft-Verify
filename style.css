@@ -178,28 +178,6 @@ body {
   font-size: 0.9rem;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    background: #2a2a2a;
-    position: absolute;
-    right: 0;
-    top: 70px;
-    width: 200px;
-    padding: 1rem;
-  }
-
-  .nav-links.open {
-    display: flex;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-}
-=======
 /* Base */
 * {
   margin: 0;
@@ -382,6 +360,7 @@ body {
 /* Responsive */
 
 @media (max-width: 768px) {
+  /* Hero section */
   .hero h2 {
     font-size: 2rem;
   }
@@ -396,36 +375,7 @@ body {
     font-size: 0.95rem;
   }
 
-  .features, .use-cases {
-    padding: 2rem 1rem;
-    padding-left: 1rem;
-    text-align: left;
-  }
-
-  .feature-grid {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .feature-item {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .contact {
-    padding: 2rem 1rem;
-  }
-
-  .contact h3 {
-    font-size: 1.5rem;
-  }
-
-  .contact p {
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 768px) {
+  /* Features and Use Cases */
   .features,
   .use-cases {
     padding: 2rem 1rem;
@@ -451,6 +401,39 @@ body {
     font-size: 0.95rem;
     padding-left: 0.2rem;
     word-wrap: break-word;
+  }
+
+  /* Contact section */
+  .contact {
+    padding: 2rem 1rem;
+  }
+
+  .contact h3 {
+    font-size: 1.5rem;
+  }
+
+  .contact p {
+    font-size: 1rem;
+  }
+
+  /* Navbar fix (already in your original CSS) */
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: #2a2a2a;
+    position: absolute;
+    right: 0;
+    top: 70px;
+    width: 200px;
+    padding: 1rem;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
   }
 }
 >>>>>>> 05e46a3d495407bb4876d84794acc3146674ab26
