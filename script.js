@@ -1,39 +1,19 @@
-<<<<<<< HEAD
-// Toggle mobile nav
-document.getElementById('menu-toggle').addEventListener('click', function () {
-  const navLinks = document.querySelector('.nav-links');
-  navLinks.classList.toggle('open');
-});
+const toggleButton = document.querySelector(".menu-toggle");
+    const navLinks = document.querySelector(".nav-links");
 
-// Smooth scrolling
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({
-        behavior: 'smooth'
-      });
-    }
-  });
-});
-=======
-// Toggle mobile nav
-document.getElementById('menu-toggle').addEventListener('click', function () {
-  const navLinks = document.querySelector('.nav-links');
-  navLinks.classList.toggle('open');
-});
+    toggleButton.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
 
-// Smooth scrolling
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({
-        behavior: 'smooth'
+    document.addEventListener("click", (event) => {
+      const isClickInside = navLinks.contains(event.target) || toggleButton.contains(event.target);
+      if (!isClickInside) {
+        navLinks.classList.remove("open");
+      }
+    });
+
+    document.querySelectorAll(".nav-links a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
       });
-    }
-  });
-});
->>>>>>> 05e46a3d495407bb4876d84794acc3146674ab26
+    });
