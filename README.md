@@ -2,7 +2,7 @@
 
 EduNFT is a decentralized platform built on the NEAR Protocol that allows **universities to mint student degrees as NFTs** and **users to verify the authenticity** of these documents. The frontend interface is powered by [NEAR Social](https://test.near.social), enabling a decentralized and user-friendly UI experience.
 
-🔗 **Live App**: https://utkarshmorwal.github.io/EduNft-Verify/
+🔗 **Live App**: [https://utkarshmorwal.github.io/EduNft-Verify/](https://morwaldutkarsh.github.io/EduNft-Verify/)
 
 ---
 
